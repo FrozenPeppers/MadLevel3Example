@@ -6,8 +6,17 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.madlevel3example.adapter.ReminderAdapter
+import com.example.madlevel3example.model.Reminder
+import kotlinx.android.synthetic.main.fragment_reminders.*
 
 class MainActivity : AppCompatActivity() {
+
+    private val reminders = listOf<Reminder>()
+    private val reminderAdapter = ReminderAdapter(reminders)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,6 +28,16 @@ class MainActivity : AppCompatActivity() {
                     .setAction("Action", null).show()
         }
     }
+
+    private fun initViews() {
+        val context = applicationContext
+        // Initialize the recycler view with a linear layout manager, adapter
+        rvReminders.layoutManager =
+            LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        rvReminders.adapter = reminderAdapter
+        rvReminders.addItemDecoration(DividerItemDecoration(context,DividerItemDecoration.VERTICAL))
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
