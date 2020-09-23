@@ -6,17 +6,21 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.madlevel3example.adapter.ReminderAdapter
 import com.example.madlevel3example.model.Reminder
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_reminders.*
 
 class MainActivity : AppCompatActivity() {
 
     private val reminders = listOf<Reminder>()
     private val reminderAdapter = ReminderAdapter(reminders)
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +31,12 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
+
+        navController = findNavController(R.id.nav_host_fragment)
+        fab.setOnClickListener{
+            navController.navigate(R.id.action_remindersFragment_to_addReminderFragment)
+        }
+
     }
 
     private fun initViews() {
