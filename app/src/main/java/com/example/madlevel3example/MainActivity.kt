@@ -1,25 +1,17 @@
 package com.example.madlevel3example
 
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.madlevel3example.adapter.ReminderAdapter
-import com.example.madlevel3example.model.Reminder
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_reminders.*
 
 class MainActivity : AppCompatActivity() {
 
-    private val reminders = listOf<Reminder>()
-    private val reminderAdapter = ReminderAdapter(reminders)
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,23 +21,16 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+                .setAction("Action", null).show()
         }
 
         navController = findNavController(R.id.nav_host_fragment)
-        fab.setOnClickListener{
+        fab.setOnClickListener {
             navController.navigate(R.id.action_remindersFragment_to_addReminderFragment)
         }
 
-    }
+        fabToggler()
 
-    private fun initViews() {
-        val context = applicationContext
-        // Initialize the recycler view with a linear layout manager, adapter
-        rvReminders.layoutManager =
-            LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        rvReminders.adapter = reminderAdapter
-        rvReminders.addItemDecoration(DividerItemDecoration(context,DividerItemDecoration.VERTICAL))
     }
 
 
@@ -54,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle action bar item clicks here. The action bar will
@@ -64,4 +50,16 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+
+    private fun fabToggler() {
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id in arrayOf(R.id.addReminderFragment)) {
+                fab.hide()
+            } else {
+                fab.show()
+            }
+        }
+    }
+
 }
